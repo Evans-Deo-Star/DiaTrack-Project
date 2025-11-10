@@ -1,1 +1,1 @@
-REACT_APP_BACKEND_URL = "https://diatrack-backend.onrender.com/";
+BACKEND_URL = "https://diatrack-backend.onrender.com/";
