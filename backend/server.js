@@ -52,17 +52,19 @@ mongoose.connect(MONGODB_URI, {
   // ===============================
   // AI Service Proxy
   // ===============================
-  app.post('/api/ai/predict', async (req, res) => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5001/predict', req.body);
-      res.json(response.data);
-    } catch (error) {
-      console.error('AI Service Error:', error.message);
-      res.status(500).json({
-        error: 'Failed to retrieve AI score. Make sure the Python ML service is running on port 5001.',
-      });
-    }
-  });
+  const ML_SERVICE_URL = process.env.ML_SERVICE_URL;
+
+
+app.post('/api/ai/predict', async (req, res) => {
+  try {
+    const response = await axios.post(ML_SERVICE_URL, req.body);
+    res.json(response.data);
+  } catch (error) {
+    console.error('AI Service Error:', error.message);
+    res.status(500).json({ error: 'Failed to retrieve AI score.' });
+  }
+});
+
 
   // ===============================
   // Start the Server
