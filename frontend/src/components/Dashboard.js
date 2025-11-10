@@ -4,10 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { BACKEND_URL } from '../config'; // ✅ Use deployed backend URL
 
+// Recharts imports for graph
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
+
 // API Endpoints
 const AI_URL = `${BACKEND_URL}/api/ai/predict`;
 const READINGS_URL = `${BACKEND_URL}/api/readings`;
-
 
 const Dashboard = ({ onLogClick, onLogout }) => {
     const [readings, setReadings] = useState([]);
@@ -98,6 +108,7 @@ const Dashboard = ({ onLogClick, onLogout }) => {
     const latestReading = readings.length > 0 ? readings[0] : null;
     const aiReadingValue = riskData?.ai_reading || latestReading?.bloodSugar;
 
+    // 7-Day Trend (Sticks + Area Graph)
     const renderTrendChart = () => {
         const chartData = readings.slice(0, 7).reverse();
         if (chartData.length === 0)
@@ -105,9 +116,17 @@ const Dashboard = ({ onLogClick, onLogout }) => {
 
         const maxReading = Math.max(...chartData.map(r => r.bloodSugar), 150);
 
+        // Prepare data for the area graph
+        const graphData = chartData.map(r => ({
+            date: moment(r.readingDate).format('MMM D'),
+            blood_sugar: r.bloodSugar
+        }));
+
         return (
-            <div className="p-4 bg-white rounded-lg border">
+            <div className="p-4 bg-white rounded-lg border space-y-6">
                 <h3 className="text-lg font-semibold mb-3">7-Day Trend</h3>
+
+                {/* Stick Bars */}
                 <div className="h-40 relative flex items-end justify-between px-2 pt-2">
                     {chartData.map((reading, index) => {
                         const height = (reading.bloodSugar / maxReading) * 100;
@@ -127,6 +146,27 @@ const Dashboard = ({ onLogClick, onLogout }) => {
                         );
                     })}
                 </div>
+
+                {/* Area Graph */}
+                <div className="w-full h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={graphData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                            <defs>
+                                <linearGradient id="colorBS" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Area type="monotone" dataKey="blood_sugar" stroke="#4f46e5" fillOpacity={1} fill="url(#colorBS)" />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+
+                {/* Date Range */}
                 <p className="text-center text-sm text-gray-500 mt-2">
                     {moment(chartData[0].readingDate).format('MMM D')} - {moment(chartData[chartData.length - 1].readingDate).format('MMM D')}
                 </p>
