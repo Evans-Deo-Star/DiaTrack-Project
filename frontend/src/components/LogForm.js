@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { BACKEND_URL } from '../config'; // ✅ Use deployed backend URL
 
-const READINGS_URL = 'http://localhost:5000/api/readings';
+const READINGS_URL = `${BACKEND_URL}/api/readings`;
+
 
 const LogForm = ({ onLogComplete, onBackClick, userId }) => {
     const [formData, setFormData] = useState({

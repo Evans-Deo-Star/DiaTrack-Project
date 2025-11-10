@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://https://diatrack-backend.onrender.com/";

@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { BACKEND_URL } from '../config'; // ✅ Use deployed backend URL
 
 // API Endpoints
-const AI_URL = 'http://localhost:5000/api/data/risk-score';
-const READINGS_URL = 'http://localhost:5000/api/readings';
+const AI_URL = `${BACKEND_URL}/api/ai/predict`;
+const READINGS_URL = `${BACKEND_URL}/api/readings`;
+
 
 const Dashboard = ({ onLogClick, onLogout }) => {
     const [readings, setReadings] = useState([]);

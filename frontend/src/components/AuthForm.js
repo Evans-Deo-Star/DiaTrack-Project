@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-// ⚠️ REMOVED: { useNavigate } - The navigation is handled by the onAuthSuccess prop passed from App.js
 import axios from 'axios';
+import { BACKEND_URL } from '../config'; // ✅ Import deployed backend URL
 
-// API Endpoints
-const API_BASE_URL = 'http://localhost:5000/api/auth';
+const API_BASE_URL = `${BACKEND_URL}/api/auth`;
 
-// Component now accepts onAuthSuccess from App.js
 const AuthForm = ({ onAuthSuccess }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [name, setName] = useState('');
@@ -13,8 +11,7 @@ const AuthForm = ({ onAuthSuccess }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-
-    // ⚠️ The temporary navigate hook is GONE. Auth is now real.
+    const [showPassword, setShowPassword] = useState(false); // 👁️ toggle
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +20,7 @@ const AuthForm = ({ onAuthSuccess }) => {
 
         const url = isLogin ? `${API_BASE_URL}/login` : `${API_BASE_URL}/register`;
         const submitData = isLogin ? { email, password } : { name, email, password };
-        
+
         if (!email || !password || (!isLogin && !name)) {
             setError('Please fill in all required fields.');
             setLoading(false);
@@ -32,23 +29,15 @@ const AuthForm = ({ onAuthSuccess }) => {
 
         try {
             const response = await axios.post(url, submitData);
-            
-            // 1. Check for success and token
             if (response.data.token) {
-                // 2. Store the token (Simulates session management)
                 localStorage.setItem('userInfo', JSON.stringify(response.data));
-                
-                // 3. 🌟 CRITICAL: Call the success handler in App.js to trigger navigation
-                onAuthSuccess(response.data); 
+                onAuthSuccess(response.data);
             }
         } catch (err) {
-            // Log full error for debugging
             console.error("Authentication Submission Error:", err);
-            
-            // Handle specific backend errors
             const errorMessage = err.response && err.response.data.message 
                                 ? err.response.data.message 
-                                : 'Server error: Check your Node.js console for details.';
+                                : 'Server error: Check backend console for details.';
             setError(errorMessage);
         } finally {
             setLoading(false);
@@ -58,11 +47,8 @@ const AuthForm = ({ onAuthSuccess }) => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="p-8 w-full max-w-md bg-white rounded-lg shadow-xl">
-                <h2 className="text-3xl font-bold text-center mb-6">
-                    DiaTrack
-                </h2>
-                
-                {/* Error Message Display */}
+                <h2 className="text-3xl font-bold text-center mb-6">DiaTrack</h2>
+
                 {error && (
                     <div className="mb-4 p-3 text-sm text-red-800 bg-red-100 rounded-lg">
                         {error}
@@ -70,8 +56,6 @@ const AuthForm = ({ onAuthSuccess }) => {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    
-                    {/* Name Field (Only shown for Sign Up) */}
                     {!isLogin && (
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
@@ -88,7 +72,6 @@ const AuthForm = ({ onAuthSuccess }) => {
                         </div>
                     )}
 
-                    {/* Email Field */}
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                         <input
@@ -103,19 +86,25 @@ const AuthForm = ({ onAuthSuccess }) => {
                         />
                     </div>
                     
-                    {/* Password Field */}
-                    <div>
+                    <div className="relative">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                         <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"} // 👁️ toggle
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-[38px] text-gray-500 hover:text-gray-700 focus:outline-none"
+                        >
+                            {showPassword ? '🙈' : '👁️'}
+                        </button>
                     </div>
 
                     <button
