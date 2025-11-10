@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://https://diatrack-backend.onrender.com/";
+export const BACKEND_URL = "https://diatrack-backend.onrender.com/";
