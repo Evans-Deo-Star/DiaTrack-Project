@@ -95,7 +95,7 @@ You must have the following installed on your machine:
 The application should now be running locally, typically accessible at `http://localhost:3000`.
 
 ---
-💻 Accessing the Live Application (Deployment)
+## 💻 Accessing the Live Application (Deployment)
 
 This application is deployed as a secure, multi-service architecture:
  
@@ -106,7 +106,7 @@ Backend API (Node.js)
 ["https://diatrack-backend.onrender.com";]
 
 
-How to Use the Web Application:
+## How to Use the Web Application:
 
 Access: Navigate to the Front-End (UI) URL above.
 
@@ -116,11 +116,11 @@ Log Data: Click the '+' button to log your blood sugar reading, plus diet and ac
 
 Get AI Insight: The Dashboard will refresh, analyze your latest reading, and display your Predictive Risk Level and personalized Actionable Advice.
 
-🧠 How DiaTrack Works: Core Functionality & AI Specialization
+## 🧠 How DiaTrack Works: Core Functionality & AI Specialization
 
 DiaTrack operates on a robust, four-tiered architecture designed for security, persistence, and specialized AI processing.
 
-1. Data Flow & Security (Weeks 3 & 5)
+# 1. Data Flow & Security 
 
 Front-End (React): Built with React and Tailwind CSS for a modern, responsive interface, including a secure password visibility toggle.
 
@@ -128,7 +128,7 @@ Authentication (JWT): User login generates a secure JSON Web Token (JWT). All su
 
 Data Persistence (MongoDB Atlas): Readings and user profiles are stored securely in MongoDB Atlas, linking all health data directly to the user's secure ID.
 
-2. The Predictive AI Component (Week 4 & 6 Specialization)
+# 2. The Predictive AI Component 
 
 The core value lies in the custom dual-backend AI system, which moves beyond simple rules to genuine data prediction.
 
