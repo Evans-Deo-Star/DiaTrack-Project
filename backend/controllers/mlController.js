@@ -2,7 +2,7 @@
 
 const axios = require('axios');
 const Reading = require('../models/Reading');
-const ML_SERVICE_URL = 'http://localhost:5001/predict_risk'; // ensure this is correct for your Flask app
+const ML_SERVICE_URL = 'https://diatrack-ml-service.onrender.com/predict_risk'; // ensure this is correct for your Flask app
 
 // @desc    Get predictive hyperglycemia risk score
 // @route   GET/POST /api/data/risk-score
