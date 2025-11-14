@@ -10,7 +10,7 @@ This project aims to address **SDG 3: Good Health and Well-Being** by providing 
 Many individuals managing chronic conditions like Type 2 Diabetes rely on manual paper logbooks or disparate apps, leading to inconsistent tracking and difficulty identifying trends. This lack of clear, consolidated data hinders proactive self-management and effective doctor consultations.
 
 ### Solution (Core Value Proposition)
-**DiaTrack** is an easy-to-use digital logbook that simplifies the tracking of critical health metrics (blood sugar, diet, and exercise). It generates **visual trends and a simple risk score** to help users proactively manage their condition and share actionable data with their healthcare providers.
+**DiaTrack** is an easy-to-use digital logbook that simplifies the tracking of critical health metrics (blood sugar, diet, and exercise). It generates **visual trends and a simple risk score** to help users proactively manage their condition and share actionable data with their healthcare providers. Its unique value lies in the AI-powered predictive model, which calculates the immediate risk of hyperglycemia (high blood sugar) and provides timely, prescriptive advice to the user.
 
 ---
 
@@ -95,6 +95,43 @@ You must have the following installed on your machine:
 The application should now be running locally, typically accessible at `http://localhost:3000`.
 
 ---
+💻 Accessing the Live Application (Deployment)
+
+This application is deployed as a secure, multi-service architecture:
+ 
+Front-End (UI)
+[https://diatrack.vercel.app/]
+
+Backend API (Node.js)
+["https://diatrack-backend.onrender.com";]
+
+
+How to Use the Web Application:
+
+Access: Navigate to the Front-End (UI) URL above.
+
+Sign Up: Create a new, secure account.
+
+Log Data: Click the '+' button to log your blood sugar reading, plus diet and activity notes.
+
+Get AI Insight: The Dashboard will refresh, analyze your latest reading, and display your Predictive Risk Level and personalized Actionable Advice.
+
+🧠 How DiaTrack Works: Core Functionality & AI Specialization
+
+DiaTrack operates on a robust, four-tiered architecture designed for security, persistence, and specialized AI processing.
+
+1. Data Flow & Security (Weeks 3 & 5)
+
+Front-End (React): Built with React and Tailwind CSS for a modern, responsive interface, including a secure password visibility toggle.
+
+Authentication (JWT): User login generates a secure JSON Web Token (JWT). All subsequent data logs are secured by an authentication middleware that verifies the token before processing the request.
+
+Data Persistence (MongoDB Atlas): Readings and user profiles are stored securely in MongoDB Atlas, linking all health data directly to the user's secure ID.
+
+2. The Predictive AI Component (Week 4 & 6 Specialization)
+
+The core value lies in the custom dual-backend AI system, which moves beyond simple rules to genuine data prediction.
+
 
 ## 📈 Development Timeline (Power Learn Project Phases)
 
